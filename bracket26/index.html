@@ -1,37 +1,343 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-platform="other">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bracket 26 — Soccer Predictor</title>
-  <meta name="description" content="Bracket 26: predict the 2026 knockout bracket. Legal information and support.">
+  <title>Bracket 26 — Predice el cuadro del Mundial 2026</title>
+  <meta name="description" content="Predice el cuadro completo del Mundial 2026 hasta el campeón. Gratis para empezar. · Predict the full 2026 bracket to the champion. Free to start.">
+
+  <!-- P0: Smart App Banner — Safari en iPhone muestra el botón de descarga nativo automáticamente -->
+  <meta name="apple-itunes-app" content="app-id=6778949738">
+
+  <!-- Open Graph para preview en WhatsApp / iMessage -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bracket 26 — ¿Cuál es tu cuadro del Mundial 2026?">
+  <meta property="og:description" content="Predice el cuadro completo hasta el campeón. Gratis para empezar.">
+  <meta property="og:url" content="https://che1404.github.io/bracket26/">
+
+  <!--
+    Detección de plataforma — script síncrono, ejecuta antes del primer render.
+    Establece data-platform en <html> para que el CSS nunca muestre contenido
+    incorrecto (no hay flash de contenido).
+  -->
+  <script>
+    (function () {
+      var ua = navigator.userAgent || "";
+      var p = /iPhone|iPad|iPod/.test(ua) ? "ios"
+            : /Android/.test(ua)          ? "android"
+            : "other";
+      document.documentElement.dataset.platform = p;
+    }());
+  </script>
+
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ── Landing-specific styles ───────────────────────────── */
+
+    /* ── Header ─── */
+    .site-header {
+      text-align: center;
+      padding: 28px 20px 0;
+    }
+
+    /* ── Main wrapper ─── */
+    .landing {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 20px 20px 48px;
+    }
+
+    /* ── Hero ─── */
+    .hero {
+      text-align: center;
+      padding: 32px 0 16px;
+    }
+
+    .hero-headline-es {
+      font-size: clamp(22px, 5.5vw, 30px);
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 0 0 10px;
+      color: var(--text);
+    }
+
+    .hero-headline-en {
+      font-size: clamp(15px, 3.8vw, 20px);
+      font-weight: 400;
+      line-height: 1.35;
+      margin: 0 0 22px;
+      color: var(--muted);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--muted);
+      margin: 0 0 28px;
+    }
+
+    /* ── CTA primary (iOS + Desktop) ─── */
+    .cta-ios-wrap {
+      margin: 0 auto;
+      max-width: 360px;
+    }
+
+    .btn-primary {
+      display: block;
+      background: var(--green);
+      color: #0B1220;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      padding: 16px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(51, 212, 128, 0.28);
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .btn-primary:hover  { opacity: 0.92; transform: translateY(-1px); }
+    .btn-primary:active { opacity: 0.82; transform: translateY(0); }
+
+    /* ── Urgency strip ─── */
+    .urgency {
+      background: rgba(245, 194, 82, 0.09);
+      border: 1px solid rgba(245, 194, 82, 0.28);
+      border-radius: 12px;
+      padding: 13px 18px;
+      margin: 24px 0;
+      text-align: center;
+    }
+
+    .urgency p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--gold);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* ── Benefits ─── */
+    .benefits {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 8px 20px;
+      margin: 0 0 24px;
+    }
+
+    .benefit-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .benefit-list li {
+      padding: 13px 0 13px 32px;
+      position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .benefit-list li:last-child { border-bottom: none; }
+
+    .benefit-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 6px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* ── Android section (solo visible en Android) ─── */
+    .android-section {
+      display: none;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 24px 20px;
+      margin: 0 0 24px;
+      text-align: center;
+    }
+
+    .android-section h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    .android-section p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: var(--green);
+      border: 2px solid var(--green);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 12px 26px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .btn-secondary:hover { background: rgba(51, 212, 128, 0.09); opacity: 1; }
+
+    /* ── Desktop QR (solo visible en desktop / "other") ─── */
+    .desktop-qr {
+      display: none;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 28px 20px;
+      margin: 0 0 24px;
+      text-align: center;
+    }
+
+    .desktop-qr .qr-label {
+      margin: 0 0 16px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .desktop-qr img {
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .desktop-qr .qr-hint {
+      margin: 14px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── Platform visibility rules ──────────────────────────
+       ios     → CTA visible, android oculto, QR oculto
+       android → CTA oculto, android visible, QR oculto
+       other   → CTA visible, android oculto, QR visible
+    ──────────────────────────────────────────────────────── */
+    [data-platform="ios"] .android-section { display: none; }
+    [data-platform="ios"] .desktop-qr      { display: none; }
+
+    [data-platform="android"] .cta-ios-wrap    { display: none; }
+    [data-platform="android"] .desktop-qr      { display: none; }
+    [data-platform="android"] .android-section { display: block; }
+
+    [data-platform="other"] .android-section { display: none; }
+    [data-platform="other"] .desktop-qr      { display: block; }
+
+    /* ── Footer legal ─── */
+    .site-footer {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 16px 20px 40px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .site-footer .legal-links {
+      margin: 0 0 10px;
+    }
+
+    .site-footer .legal-links a {
+      color: var(--muted);
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    .site-footer .legal-links a:hover { color: var(--green); opacity: 1; }
+
+    .site-footer p { margin: 6px 0 0; line-height: 1.55; }
+  </style>
 </head>
 <body>
-  <main>
-    <header class="site">
-      <a class="wordmark" href="./">BRACKET<span class="accent">26</span></a>
-      <p class="tagline">Predict the 2026 knockout bracket. · Predice el cuadro del torneo 2026.</p>
-    </header>
 
-    <section class="card">
-      <h2>Legal</h2>
-      <ul class="links">
-        <li><a href="privacy.html">Privacy Policy · Política de privacidad</a></li>
-        <li><a href="terms.html">Terms of Use · Términos de uso</a></li>
+  <!-- Wordmark -->
+  <header class="site-header">
+    <a class="wordmark" href="./">BRACKET<span class="accent">26</span></a>
+  </header>
+
+  <main class="landing">
+
+    <!-- ── Bloque 1: Hero + CTA ─────────────────────────────────────── -->
+    <section class="hero">
+      <h1 class="hero-headline-es">Tu colega ya tiene su cuadro del Mundial 2026. ¿Y el tuyo?</h1>
+      <p class="hero-headline-en">Your mate already locked their 2026 bracket. Where's yours?</p>
+      <p class="hero-sub">Predice el cuadro completo hasta el campeón. Gratis. · Predict the full bracket to the champion. Free.</p>
+
+      <!-- CTA primario — visible en iOS y desktop, oculto en Android -->
+      <div class="cta-ios-wrap">
+        <a href="https://apps.apple.com/app/id6778949738?ct=share_card" class="btn-primary">
+          Descárgalo gratis en iPhone · Get it free on iPhone
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Urgencia ──────────────────────────────────────────────────── -->
+    <div class="urgency">
+      <p>Los octavos arrancan el 28 de junio — cierra tu cuadro antes.<br>Round of 16 kicks off June 28 — lock your bracket first.</p>
+    </div>
+
+    <!-- ── Bloque 2: Beneficios ──────────────────────────────────────── -->
+    <section class="benefits">
+      <ul class="benefit-list">
+        <li>Predice los 48 partidos del cuadro · Predict all 48 bracket matches</li>
+        <li>Comparte tu bracket por WhatsApp · Share your bracket on WhatsApp</li>
+        <li>Compite con tus amigos · Compete with your friends</li>
       </ul>
     </section>
 
-    <section class="card">
-      <h2>Support · Soporte</h2>
-      <p>Questions or issues with the app? Write to us. · ¿Dudas o problemas con la app? Escríbenos.</p>
-      <p><a href="mailto:roberto@irakai.com">roberto@irakai.com</a></p>
+    <!-- ── Android (solo visible si UA = Android) ────────────────────── -->
+    <!--
+      NOTA (Ro): el botón "Avísame" abre el cliente de correo del usuario.
+      Si quieres captura real de emails sin que salgan de la página, reemplaza
+      el href del botón por un formulario Tally.so (tally.so) o Google Forms
+      (gratis, sin backend, embed o link directo).
+    -->
+    <section class="android-section">
+      <h2>Bracket 26 llega muy pronto a Android.</h2>
+      <p>
+        El cuadro de tu colega ya está listo — el Mundial no espera. Te avisamos el día que salga.<br>
+        <em>Your mate's bracket is ready. Bracket 26 hits Android very soon — we'll ping you the day it's live.</em>
+      </p>
+      <a href="mailto:roberto@irakai.com?subject=Avisame%20cuando%20Bracket%2026%20salga%20en%20Android" class="btn-secondary">
+        Avísame · Notify me
+      </a>
     </section>
+
+    <!-- ── Desktop: QR (solo visible si UA != iOS / Android) ─────────── -->
+    <section class="desktop-qr">
+      <p class="qr-label">Ábrelo desde tu iPhone · Open it on your iPhone</p>
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&amp;data=https://che1404.github.io/bracket26/"
+        alt="QR code para abrir Bracket 26 en el iPhone · QR code to open Bracket 26 on iPhone"
+        width="220"
+        height="220"
+        loading="lazy"
+      >
+      <p class="qr-hint">Apunta la cámara del iPhone y pulsa el enlace · Point your iPhone camera and tap the link</p>
+    </section>
+
   </main>
 
-  <footer class="site">
-    <p>© 2026 Irakai Studio SL. Bracket 26 is an independent app and is not affiliated with, endorsed by, or sponsored by any tournament organizer, federation, or team.</p>
-    <p>Bracket 26 es una app independiente y no está afiliada, avalada ni patrocinada por ningún organizador de torneos, federación o equipo.</p>
+  <!-- ── Footer legal ─────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="legal-links">
+      <a href="privacy.html">Privacidad · Privacy</a>
+      <a href="terms.html">Términos · Terms</a>
+      <a href="mailto:roberto@irakai.com">Soporte · Support</a>
+    </div>
+    <p>© 2026 Irakai Studio SL. Bracket 26 es una app independiente, no afiliada con ningún organizador de torneos, federación o equipo. · Bracket 26 is an independent app, not affiliated with any tournament organizer, federation, or team.</p>
   </footer>
+
 </body>
 </html>
